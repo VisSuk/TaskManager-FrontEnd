@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import Sidebar from '../components/Sidebar'
 import Dashboard from './Dashboard'
-import ManageTasks from './ManageTasks'
 import CreateTask from './CreateTask'
+import Statistics from './Statistics'
 
 function ViewProfile() {
 
@@ -13,7 +13,7 @@ function ViewProfile() {
 
     const renderComponent = () => {
         if(activeComponent == 'dashboard'){return <Dashboard/> }
-        else if(activeComponent == 'manage'){return <ManageTasks/> }
+        else if(activeComponent == 'stats'){return <Statistics/> }
         else if(activeComponent == 'create'){return <CreateTask/> }
         else{return <Dashboard/> }
     }
@@ -21,11 +21,11 @@ function ViewProfile() {
   return (
     <>
     
-    <h1>Task Manager</h1>
+    <h1 className='border p-6 text-4xl font-semibold'>Task Manager</h1>
 
     <div className='md:grid grid-cols-[1fr_5fr]'>
 
-    <div>
+    <div className='border h-screen'>
         <Sidebar setActiveComponent = {setActiveComponent} />
     </div>
     <div>

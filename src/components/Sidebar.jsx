@@ -1,30 +1,41 @@
+import { faBarsProgress, faChartSimple, faListCheck, faPlus, faPowerOff } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 function Sidebar({ setActiveComponent }) {
 
     const SideMenuItems = [
-        { key: "dashboard", label: "DashBoard" },
-        { key: "manage", label: "Manage Tasks" },
-        { key: "create", label: "Create Task" }
+
+        { key: "stats", label: "Statistics", icon: faChartSimple },
+        { key: "dashboard", label: "DashBoard", icon: faBarsProgress },
+        { key: "create", label: "Create Task", icon: faPlus },
+        { key: "logout", label: "Logout", icon: faPowerOff }
     ]
 
-    
+
 
     return (
         <>
 
-            <div className='flex flex-col items-center'>
-                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pngall.com%2Fwp-content%2Fuploads%2F5%2FUser-Profile-PNG-High-Quality-Image.png&f=1&nofb=1&ipt=51ae50ec9b0280ccb9402c5897954c78d8ca172fe47c24581ad948ebff27639c" alt="User Picture" style={{ height: '200px' }} />
-                <h1>John Doe</h1>
-                <h2>johndoe@gmail.com</h2>
-            </div>
+            <div className='flex flex-col items-center justify-evenly h-3/5'>
+                <div className='flex flex-col items-center'>
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pngall.com%2Fwp-content%2Fuploads%2F5%2FUser-Profile-PNG-High-Quality-Image.png&f=1&nofb=1&ipt=51ae50ec9b0280ccb9402c5897954c78d8ca172fe47c24581ad948ebff27639c" alt="User Picture" style={{ height: '150px' }} />
+                    <h1 className='text-2xl font-semibold'>John Doe</h1>
+                    <h2 className='mt-1 text-lg'>johndoe@gmail.com</h2>
+                </div>
 
-            <div className='mt-6 flex flex-col items-center'>
-                <ul>
-                    {SideMenuItems.map((items) => (
-                        <li onClick={()=>setActiveComponent(items.key)} >{items.label}</li>
-                    ))}
-                </ul>
+                <div className='flex flex-col items-center w-full'>
+                    <ul className='w-full'>
+                        {SideMenuItems.map((items) => (
+                            <li key={items.key}
+                                className='py-4 text-center text-xl flex items-center justify-start ps-7 hover:bg-blue-200 active:bg-blue-500 active:text-white focus:border'
+                                onClick={() => setActiveComponent(items.key)} >
+                                <FontAwesomeIcon icon={items.icon} />
+                                <span className='ms-2'>{items.label}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
 
         </>
