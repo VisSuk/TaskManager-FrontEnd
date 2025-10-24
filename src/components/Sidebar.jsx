@@ -1,6 +1,6 @@
 import { faBarsProgress, faChartSimple, faListCheck, faPlus, faPowerOff } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React, { useState } from 'react'
 
 function Sidebar({ setActiveComponent }) {
 
@@ -12,6 +12,10 @@ function Sidebar({ setActiveComponent }) {
         { key: "logout", label: "Logout", icon: faPowerOff }
     ]
 
+    // const [hoverIndex, sethoverIndex] = useState("")
+    const [activeTab, setActiveTab] = useState("")
+    // console.log(activeTab);
+    
 
 
     return (
@@ -28,8 +32,10 @@ function Sidebar({ setActiveComponent }) {
                     <ul className='w-full'>
                         {SideMenuItems.map((items) => (
                             <li key={items.key}
-                                className='py-4 text-center text-xl flex items-center justify-start ps-7 hover:bg-blue-200 active:bg-blue-500 active:text-white focus:border'
-                                onClick={() => setActiveComponent(items.key)} >
+                                className={activeTab==items.key?'py-4 text-center text-xl flex items-center justify-start ps-7 bg-blue-500 text-white':'py-4 text-center text-xl flex items-center justify-start ps-7 hover:bg-blue-200'}
+                                onClick={() => {setActiveComponent(items.key), setActiveTab(items.key)}}
+                                
+                                >
                                 <FontAwesomeIcon icon={items.icon} />
                                 <span className='ms-2'>{items.label}</span>
                             </li>
