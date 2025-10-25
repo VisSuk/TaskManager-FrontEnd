@@ -15,7 +15,7 @@ function App() {
 
       <Route path="/" element={<Auth/>} ></Route>
       <Route path="/register" element={<Auth register/>} ></Route>
-      <Route path="/viewprofile/:id" element={<ViewProfile/>} ></Route>
+      <Route path="/viewprofile" element={<ViewProfile/>} ></Route>
 
     </Routes>
 

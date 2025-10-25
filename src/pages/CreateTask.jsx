@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 function CreateTask() {
 
+  const [token, setToken] = useState("")
+  console.log(token);
+  
 
   const [taskDetails, setTaskDetails] = useState({
     title: "",
@@ -12,6 +15,15 @@ function CreateTask() {
 
   console.log(taskDetails);
 
+  const handleSubmit = () => {
+
+
+
+  }
+
+  useEffect( ()=>{
+    setToken(sessionStorage.getItem("token"))
+  },[] )
 
 
   return (
@@ -38,6 +50,7 @@ function CreateTask() {
             type="text"
             rows={5}
             placeholder='Describe Task'
+            onChange={(e) => { setTaskDetails({ ...taskDetails, description: e.target.value }) }}
             className='mt-1 border border-gray-300 w-full rounded-xl p-3 placeholder:text-gray-500 placeholder:font-semibold hover:border-black transition delay-75 duration-150'
           />
         </div>
@@ -53,10 +66,10 @@ function CreateTask() {
           </div>
           <div>
             <h1 className='text-lg'>Due Date</h1>
-            <input 
-            type="date" 
-            className='w-1/2 mt-1 py-3 px-3 border border-gray-300 rounded-lg bg-white hover:border-black transition duration-150 focus:outline-none font-medium '
-            onChange={(e)=>{setTaskDetails({...taskDetails, dueDate:e.target.value})}}
+            <input
+              type="date"
+              className='w-1/2 mt-1 py-3 px-3 border border-gray-300 rounded-lg bg-white hover:border-black transition duration-150 focus:outline-none font-medium '
+              onChange={(e) => { setTaskDetails({ ...taskDetails, dueDate: e.target.value }) }}
             />
           </div>
         </div>
