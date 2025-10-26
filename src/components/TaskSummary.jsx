@@ -1,6 +1,6 @@
 import React from 'react'
 
-function TaskSummary() {
+function TaskSummary({task}) {
   return (
     <>
     
@@ -13,8 +13,8 @@ function TaskSummary() {
         </div>
         
         <div className='mt-3 p-3'>
-            <h1 className='text-xl font-semibold'>Create Application</h1>
-            <p className='text-justify text-base text-gray-600 mt-2'>Create a clean and modern homepage layout using Tailwind CSS. Ensure the design is responsive and yayayayayay</p>
+            <h1 className='text-xl font-semibold'>{task.title}</h1>
+            <p className='text-justify text-base text-gray-600 mt-2'>{task.description}</p>
         </div>
 
         <div className='mt-1 px-3 py-1 flex items-center w-3/4'>

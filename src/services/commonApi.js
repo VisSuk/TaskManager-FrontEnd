@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const commonApi = async(httpRequest, url, reqBody, reqHeader) => {
 
+    // console.log(reqHeader)
     const reConfig = {
         method:httpRequest,
         url,

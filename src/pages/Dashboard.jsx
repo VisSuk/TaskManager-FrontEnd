@@ -1,7 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TaskSummary from '../components/TaskSummary'
+import { getUserTasksApi } from '../services/allApi'
 
 function Dashboard() {
+
+  const [token, setToken] = useState("")
+  const [allTasks, setAllTasks] = useState([])
+  console.log(token)
+
+  const getUserTasks = async() => {
+
+    const reqHeader = {"Authorization":`Bearer ${token}`}
+    const result = await getUserTasksApi(reqHeader)
+    // console.log(result.data)
+    setAllTasks(result.data)
+
+  }
+
+  useEffect( () => {
+    setToken(sessionStorage.getItem("token"))
+  }, [] )
+
+  useEffect( () => {
+    if(token){
+      getUserTasks()
+    }
+  }, [token])
+
+
   return (
     <>
     
@@ -19,10 +45,8 @@ function Dashboard() {
 
     <div className='mt-5 mx-5 h-150'>
       <div className="grid grid-cols-3 gap-4"> 
-        <div className=''> <TaskSummary/> </div>
-        <div className=''> <TaskSummary/> </div>
-        <div className=''> <TaskSummary/> </div>
-        <div className=''> <TaskSummary/> </div>
+        {allTasks?.map((task) => (<div className=''> <TaskSummary task={task}/> </div>))
+          }
       </div>
     </div>
     
