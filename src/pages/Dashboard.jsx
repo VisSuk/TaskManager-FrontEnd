@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import TaskSummary from '../components/TaskSummary'
 import { getUserTasksApi } from '../services/allApi'
 
-function Dashboard() {
+function Dashboard({ setActiveComponent, setSelectedTaskId }) {
 
   const [token, setToken] = useState("")
   const [allTasks, setAllTasks] = useState([])
@@ -12,7 +12,7 @@ function Dashboard() {
 
     const reqHeader = {"Authorization":`Bearer ${token}`}
     const result = await getUserTasksApi(reqHeader)
-    // console.log(result.data)
+    console.log(result.data)
     setAllTasks(result.data)
 
   }
@@ -45,7 +45,7 @@ function Dashboard() {
 
     <div className='mt-5 mx-5 h-150'>
       <div className="grid grid-cols-3 gap-4"> 
-        {allTasks?.map((task) => (<div className=''> <TaskSummary task={task}/> </div>))
+        {allTasks?.map((task) => (<div className='' key={task._id}> <TaskSummary task={task} setActiveComponent= {setActiveComponent}  setSelectedTaskId={setSelectedTaskId} /> </div>))
           }
       </div>
     </div>

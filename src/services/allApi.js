@@ -21,3 +21,7 @@ export const getUserTasksApi = async(reqHeader) => {
     // console.log(reqHeader)
     return await commonApi('GET', `${serverUrl}/gettasks`, {}, reqHeader)
 }
+
+export const viewTaskDetailsApi = async(taskId, reqHeader) => {
+    return await commonApi('GET', `${serverUrl}/viewtask/${taskId}`, {}, reqHeader)
+}

@@ -3,18 +3,21 @@ import Sidebar from '../components/Sidebar'
 import Dashboard from './Dashboard'
 import CreateTask from './CreateTask'
 import Statistics from './Statistics'
+import ViewTask from './ViewTask'
 
 function ViewProfile() {
 
     const [activeComponent, setActiveComponent] = useState('dashboard')
+    const [selectedTaskId, setSelectedTaskId] = useState(null)
 
     // console.log(activeComponent);
     
 
     const renderComponent = () => {
-        if(activeComponent == 'dashboard'){return <Dashboard/> }
+        if(activeComponent == 'dashboard'){return <Dashboard setActiveComponent={setActiveComponent}  setSelectedTaskId={setSelectedTaskId} /> }
         else if(activeComponent == 'stats'){return <Statistics/> }
         else if(activeComponent == 'create'){return <CreateTask/> }
+        else if(activeComponent == 'view'){return <ViewTask selectedTaskId={selectedTaskId} ></ViewTask>}
         else{return <Dashboard/> }
     }
 

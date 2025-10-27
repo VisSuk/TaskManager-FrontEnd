@@ -10,7 +10,7 @@ function CreateTask() {
   const [taskDetails, setTaskDetails] = useState({
     title: "",
     description: "",
-    priority: "",
+    priority: "low",
     dueDate: "",
   })
 

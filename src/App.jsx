@@ -3,6 +3,7 @@ import { Route, Routes} from 'react-router-dom'
 import './App.css'
 import Auth from './pages/Auth'
 import ViewProfile from './pages/ViewProfile'
+import ViewTask from './pages/ViewTask'
 
 function App() {
   
@@ -16,6 +17,7 @@ function App() {
       <Route path="/" element={<Auth/>} ></Route>
       <Route path="/register" element={<Auth register/>} ></Route>
       <Route path="/viewprofile" element={<ViewProfile/>} ></Route>
+      <Route path="/viewtask/:id" element={ <ViewTask />} ></Route>
 
     </Routes>
 
