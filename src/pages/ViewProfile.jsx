@@ -24,11 +24,11 @@ function ViewProfile() {
   return (
     <>
     
-    <h1 className='border p-6 text-4xl font-semibold'>Task Manager</h1>
+    <h1 className='md:border-b p-6 text-4xl font-semibold'>Task Manager</h1>
 
     <div className='md:grid grid-cols-[1fr_5fr]'>
 
-    <div className='border h-screen'>
+    <div className='md:h-screen md:border-r border-b'>
         <Sidebar setActiveComponent = {setActiveComponent} />
     </div>
     <div>

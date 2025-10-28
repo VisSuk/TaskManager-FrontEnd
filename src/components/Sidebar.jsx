@@ -21,7 +21,7 @@ function Sidebar({ setActiveComponent }) {
     return (
         <>
 
-            <div className='flex flex-col items-center justify-evenly h-3/5'>
+            <div className='flex flex-col items-center justify-evenly h-screen md:h-3/5'>
                 <div className='flex flex-col items-center'>
                     <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pngall.com%2Fwp-content%2Fuploads%2F5%2FUser-Profile-PNG-High-Quality-Image.png&f=1&nofb=1&ipt=51ae50ec9b0280ccb9402c5897954c78d8ca172fe47c24581ad948ebff27639c" alt="User Picture" style={{ height: '150px' }} />
                     <h1 className='text-2xl font-semibold'>John Doe</h1>

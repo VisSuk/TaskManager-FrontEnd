@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { viewTaskDetailsApi } from '../services/allApi'
+import { editTaskApi, viewTaskDetailsApi } from '../services/allApi'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { capitalize } from '../functions/capitalizeWord'
@@ -16,7 +16,7 @@ function ViewTask({ selectedTaskId }) {
         taskStatus: "",
         dueDate: ""
     })
-    console.log(taskDetails)
+    // console.log(taskDetails)
 
     // backup for when editing is cancelled
     const [taskDetails_2, setTaskDetails_2] = useState({
@@ -37,7 +37,7 @@ function ViewTask({ selectedTaskId }) {
         const reqHeader = { "Authorization": `Bearer ${token}` }
         // console.log(taskId, reqHeader)
         const result = await viewTaskDetailsApi(taskId, reqHeader)
-        // console.log(result.data)
+        console.log(result.data)
         setTaskDetails({
             title: result.data.title,
             description: result.data.description,
@@ -55,6 +55,25 @@ function ViewTask({ selectedTaskId }) {
 
     }
 
+    const handleSubmit = async () => {
+
+        const {title, description, priority, taskStatus, dueDate} = taskDetails
+        const taskId = selectedTaskId
+        const reqHeader = { "Authorization": `Bearer ${token}` }
+
+        const reqBody = {
+            title,
+            description,
+            priority,
+            taskStatus,
+            dueDate
+        }
+        
+        const result = await editTaskApi(taskId, reqBody, reqHeader)
+        console.log(result.data)
+
+    }
+
     useEffect(() => {
         setToken(sessionStorage.getItem("token"))
     }, [])
@@ -67,7 +86,7 @@ function ViewTask({ selectedTaskId }) {
 
     return (
         <>
-            <div className="mx-5 mt-8 p-7 w-3/4 border rounded-lg shadow">
+            <div className="mx-1 md:mx-5 mt-8 p-3 md:p-7 md:w-3/4 border rounded-lg shadow">
 
                 <div className="flex justify-between items-center">
                     <h1 className="text-2xl font-semibold">
@@ -75,7 +94,7 @@ function ViewTask({ selectedTaskId }) {
                     </h1>
 
                     {!isEditing && (
-                        <div className="w-1/5 flex justify-evenly">
+                        <div className="w-1/3 md:w-1/5 flex justify-evenly ">
                             <button
                                 type="button"
                                 onClick={() => setIsEditing(true)}
@@ -133,7 +152,7 @@ function ViewTask({ selectedTaskId }) {
                 </div>
 
 
-                <div className="grid grid-cols-3 gap-4 mt-5">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-5">
 
                     <div>
                         <h1 className="text-lg">Priority</h1>
@@ -177,13 +196,13 @@ function ViewTask({ selectedTaskId }) {
                     </div>
 
 
-                    <div>
+                    <div className=''>
                         <h1 className="text-lg">Due Date</h1>
                         {isEditing ? (
                             <input
                                 type="date"
                                 className="w-3/4 mt-1 py-3 px-3 border border-gray-300 rounded-lg hover:border-black transition duration-150"
-                                value={new Date(taskDetails.dueDate).toISOString().substring(0,10)}
+                                value={new Date(taskDetails.dueDate).toISOString().substring(0, 10)}
                                 onChange={(e) => { setTaskDetails({ ...taskDetails, dueDate: e.target.value }) }}
                             />
                         ) :
@@ -198,7 +217,9 @@ function ViewTask({ selectedTaskId }) {
                         <button type="button"
                             onClick={() => { setTaskDetails(taskDetails_2), setIsEditing(false) }}
                             className="px-5 py-2 rounded-lg text-lg font-semibold bg-gray-300 hover:bg-gray-400">Cancel</button>
-                        <button type="button" className="px-5 py-2 rounded-lg text-lg font-semibold text-white bg-green-500 hover:bg-green-600">Save Changes</button>
+                        <button type="button" 
+                        onClick={handleSubmit}
+                        className="px-5 py-2 rounded-lg text-lg font-semibold text-white bg-green-500 hover:bg-green-600">Save Changes</button>
                     </div>
                 )}
             </div>
