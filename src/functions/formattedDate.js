@@ -15,7 +15,7 @@ const months_numtoName = [
 
 export const getFormattedDate = (date) => {
 
-        console.log(date)
+        // console.log(date)
         const dateString = String(date)
         const dateArray = dateString.substring(0, 10).split("-")
         const year = dateArray[0]

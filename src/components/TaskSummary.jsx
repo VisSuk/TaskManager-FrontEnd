@@ -46,7 +46,7 @@ function TaskSummary({ task, setActiveComponent, setSelectedTaskId }) {
     return (
         <>
 
-            <div className='p-3 border rounded-lg' onClick={()=>{handleViewTask(task._id)}}  >
+            <div style={{height:"250px"}} className='p-3 border-2 border-gray-300 hover:border-gray-200 hover:shadow-xl transition delay-75 duration-200 rounded-lg' onClick={()=>{handleViewTask(task._id)}}  >
                 <div className=''>
                     <ul className='flex justify-evenly'>
                         <li className={`w-1/3 rounded p-1 text-center font-semibold ${getStatusClasses(task.taskStatus)}`}>{capitalize(task.taskStatus)}</li>
@@ -54,14 +54,16 @@ function TaskSummary({ task, setActiveComponent, setSelectedTaskId }) {
                     </ul>
                 </div>
 
-                <div className='mt-3 p-3'>
-                    <h1 className='text-xl font-semibold'>{task.title}</h1>
-                    <p className='text-justify text-base text-gray-600 mt-2'>{task.description.slice(0,120)}...</p>
-                </div>
-
-                <div className='mt-1 px-3 py-1 flex items-center justify-between w-3/4'>
-                    <h1 className='w-1/3'>Due Date</h1>
-                    <h2 className='font-semibold text-xl'>{getFormattedDate(task.dueDate)}</h2>
+                <div className=' flex flex-col justify-evenly h-9/10'>
+                    <div className='mt-3 p-3 '>
+                        <h1 className='text-xl font-semibold'>{task.title}</h1>
+                        <p className='text-justify text-base text-gray-600 mt-2'>{task.description.slice(0,120)}...</p>
+                    </div>
+    
+                    <div className='mt-1 px-3 py-1 flex items-center justify-between w-3/4'>
+                        <h1 className='w-1/3'>Due Date</h1>
+                        <h2 className='font-semibold text-xl'>{getFormattedDate(task.dueDate)}</h2>
+                    </div>
                 </div>
 
             </div>

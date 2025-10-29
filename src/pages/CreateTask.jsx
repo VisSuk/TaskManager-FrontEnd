@@ -42,7 +42,7 @@ function CreateTask() {
       setTaskDetails(({
         title: "",
         description: "",
-        priority: "",
+        priority: "low",
         dueDate: "",
       }))
 
@@ -58,7 +58,7 @@ function CreateTask() {
   return (
     <>
 
-      <div className="border mx-5 mt-8 p-7 w-3/4">
+      <div className="border rounded-lg mx-2 md:mx-5 mt-8 p-7 md:w-3/4">
         <h1 className='text-2xl font-semibold'>Create Task</h1>
 
         <div className='mt-6'>
@@ -90,7 +90,7 @@ function CreateTask() {
           <div className=''>
             <h1 className='text-lg'>Priority</h1>
             <select 
-            className='w-1/3 mt-1 p-3 rounded-lg border border-gray-300' 
+            className='md:w-1/3 mt-1 p-3 rounded-lg border border-gray-300' 
             value={taskDetails.priority}
             onChange={(e) => { setTaskDetails({ ...taskDetails, priority: e.target.value }) }} 
             >
@@ -103,7 +103,7 @@ function CreateTask() {
             <h1 className='text-lg'>Due Date</h1>
             <input
               type="date"
-              className='w-1/2 mt-1 py-3 px-3 border border-gray-300 rounded-lg bg-white hover:border-black transition duration-150 focus:outline-none font-medium '
+              className='md:w-1/2 mt-1 py-3 px-3 border border-gray-300 rounded-lg bg-white hover:border-black transition duration-150 focus:outline-none font-medium '
               value={taskDetails.dueDate}
               onChange={(e) => { setTaskDetails({ ...taskDetails, dueDate: e.target.value }) }}
             />

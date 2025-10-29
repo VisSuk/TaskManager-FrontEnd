@@ -7,53 +7,58 @@ function Dashboard({ setActiveComponent, setSelectedTaskId }) {
 
   const [token, setToken] = useState("")
   const [allTasks, setAllTasks] = useState([])
-  console.log(token)
+  const [loading, setLoading] = useState(false);
+  // console.log(token)
 
   const [selectedFilters, setSelectedFilters] = useState({
-    priority:"all",
-    taskStatus:"all",
-    dueDateOrder:"none"
+    priority: "all",
+    taskStatus: "all",
+    dueDateOrder: "none"
   })
-  console.log(selectedFilters)
+  // console.log(selectedFilters)
 
   const getUserTasks = async () => {
 
+    setLoading(true);
     const reqHeader = { "Authorization": `Bearer ${token}` }
     const result = await getUserTasksApi(reqHeader)
-    console.log(result.data)
+    // console.log(result.data)
     setAllTasks(result.data)
+    setLoading(false);
 
   }
 
-  
+
 
   const setfilteredTasks = () => {
 
     var filteredTasks = [...allTasks]
 
-    if(selectedFilters.priority != "all"){
+    if (selectedFilters.priority != "all") {
       var filteredTasks = filteredTasks.filter((task) => task.priority == selectedFilters.priority)
     }
-    
-    if(selectedFilters.taskStatus != "all"){
+
+    if (selectedFilters.taskStatus != "all") {
       var filteredTasks = filteredTasks.filter((task) => task.taskStatus == selectedFilters.taskStatus)
     }
 
-    if(selectedFilters.dueDateOrder == "none"){
+    if (selectedFilters.dueDateOrder == "none") {
       return filteredTasks
     }
-    else{
-      if(selectedFilters.dueDateOrder == "descending"){
-        var sortedTasks = filteredTasks.sort((a,b) => new Date(a.dueDate) - new Date(b.dueDate))
+    else {
+      if (selectedFilters.dueDateOrder == "descending") {
+        var sortedTasks = filteredTasks.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
         return sortedTasks
       }
-      else if(selectedFilters.dueDateOrder == "ascending"){
-        var sortedTasks = filteredTasks.sort((a,b) => new Date(b.dueDate) - new Date(a.dueDate))
+      else if (selectedFilters.dueDateOrder == "ascending") {
+        var sortedTasks = filteredTasks.sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate))
         return sortedTasks
       }
     }
 
   }
+
+  const filteredTasks = setfilteredTasks();
 
   useEffect(() => {
     setToken(sessionStorage.getItem("token"))
@@ -86,10 +91,10 @@ function Dashboard({ setActiveComponent, setSelectedTaskId }) {
         <div className='grid grid-cols-3'>
           <div className='flex flex-col items-center'>
             <p>Priority</p>
-            <select 
-            className='border w-3/4 mt-1 p-3 rounded-lg border-gray-300'
-            value={selectedFilters.priority}
-            onChange={(e) => {setSelectedFilters({...selectedFilters, priority:e.target.value})}}
+            <select
+              className='border w-3/4 mt-1 p-3 rounded-lg border-gray-300'
+              value={selectedFilters.priority}
+              onChange={(e) => { setSelectedFilters({ ...selectedFilters, priority: e.target.value }) }}
             >
               <option value="all" className='text-lg'>All</option>
               <option value="low" className='text-lg'>Low</option>
@@ -99,10 +104,10 @@ function Dashboard({ setActiveComponent, setSelectedTaskId }) {
           </div>
           <div className='flex flex-col items-center'>
             <p>TaskStatus</p>
-            <select 
-            className='border w-3/4 mt-1 p-3 rounded-lg border-gray-300'
-            value={selectedFilters.taskStatus}
-            onChange={(e) => {setSelectedFilters({...selectedFilters, taskStatus:e.target.value})}}
+            <select
+              className='border w-3/4 mt-1 p-3 rounded-lg border-gray-300'
+              value={selectedFilters.taskStatus}
+              onChange={(e) => { setSelectedFilters({ ...selectedFilters, taskStatus: e.target.value }) }}
             >
               <option value="all" className='text-lg' >All</option>
               <option value="pending" className='text-lg'>Pending</option>
@@ -112,10 +117,10 @@ function Dashboard({ setActiveComponent, setSelectedTaskId }) {
           </div>
           <div className='flex flex-col items-center'>
             <p>Due Date</p>
-            <select 
-            className='border w-3/4 mt-1 p-3 rounded-lg border-gray-300'
-            value={selectedFilters.dueDateOrder}
-            onChange={(e) => {setSelectedFilters({...selectedFilters, dueDateOrder:e.target.value})}}
+            <select
+              className='border w-3/4 mt-1 p-3 rounded-lg border-gray-300'
+              value={selectedFilters.dueDateOrder}
+              onChange={(e) => { setSelectedFilters({ ...selectedFilters, dueDateOrder: e.target.value }) }}
             >
               <option value="none" className='text-lg'>No filter</option>
               <option value="descending" className='text-lg'>Due First</option>
@@ -127,8 +132,25 @@ function Dashboard({ setActiveComponent, setSelectedTaskId }) {
 
       <div className='mt-5 mx-5 h-150'>
         <div className="md:grid grid-cols-3 gap-4">
-          {setfilteredTasks()?.map((task) => (<div className='my-5 md:my-0' key={task._id}> <TaskSummary task={task} setActiveComponent={setActiveComponent} setSelectedTaskId={setSelectedTaskId} /> </div>))
-          }
+          {loading ? (
+            <div className='text-center text-xl font-semibold py-10'>
+              Loading tasks...
+            </div>
+          ) : filteredTasks?.length > 0 ? (
+            filteredTasks.map((task) => (
+              <div className='my-5 md:my-0' key={task._id}>
+                <TaskSummary
+                  task={task}
+                  setActiveComponent={setActiveComponent}
+                  setSelectedTaskId={setSelectedTaskId}
+                />
+              </div>
+            ))
+          ) : (
+            <div className='md:p-5'>
+              <p className='text-xl font-semibold'>No Tasks Found</p>
+            </div>
+          )}
         </div>
       </div>
 

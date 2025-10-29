@@ -94,28 +94,28 @@ function Auth({ register }) {
                         <div className=''>
                             <h1 className='text-xl font-semibold mt-2'>Full Name</h1>
                             <input type="text" placeholder='John Doe'
-                                className='mt-2 border-1 border-gray-300 w-full rounded-3xl px-3 py-2 placeholder:text-gray-500 hover:border hover:border-black transition delay-75 duration-150 '
+                                className='mt-2 border-1 border-gray-300 w-full rounded-lg px-3 py-2 placeholder:text-gray-500 hover:border hover:border-black transition delay-75 duration-150 '
                                 value={userDetails.name}
                                 onChange={(e) => { setUserDetails({ ...userDetails, name: e.target.value }) }}
                             />
                         </div>
                         <div>
                             <h1 className='text-xl font-semibold mt-2'>Email Address</h1>
-                            <input type="email" placeholder='johndoe@gmail.com' className='mt-2 border-1 border-gray-300 w-full rounded-3xl px-3 py-2 placeholder:text-gray-500 placeholder:text-gray-500 hover:border hover:border-black transition delay-75 duration-150'
+                            <input type="email" placeholder='johndoe@gmail.com' className='mt-2 border-1 border-gray-300 w-full rounded-lg px-3 py-2 placeholder:text-gray-500 placeholder:text-gray-500 hover:border hover:border-black transition delay-75 duration-150'
                                 value={userDetails.email}
                                 onChange={(e) => { setUserDetails({ ...userDetails, email: e.target.value }) }} />
 
                         </div>
                         <div>
                             <h1 className='text-xl font-semibold mt-2' >Password</h1>
-                            <input type="password" placeholder='Min. 6 characters' className='mt-2 border-1 border-gray-300 w-full rounded-3xl px-3 py-2 placeholder:text-gray-500  hover:border hover:border-black transition delay-75 duration-150'
+                            <input type="password" placeholder='Min. 6 characters' className='mt-2 border-1 border-gray-300 w-full rounded-lg px-3 py-2 placeholder:text-gray-500  hover:border hover:border-black transition delay-75 duration-150'
                                 value={userDetails.password}
                                 onChange={(e) => { setUserDetails({ ...userDetails, password: e.target.value }) }} />
 
                         </div>
                         <div className='my-4'>
                             <button
-                                className=' transition delay-75 duration-150 w-full text-white text-xl rounded-3xl  bg-blue-500 px-3 py-2 hover:text-blue-500 hover:bg-white hover:border hover:border-blue-500'
+                                className=' transition delay-75 duration-150 w-full text-white text-xl rounded-lg  bg-blue-500 px-3 py-2 hover:text-blue-500 hover:bg-white hover:border hover:border-blue-500'
                                 onClick={handleSignUp}
                             >SIGN UP</button>
                         </div>
@@ -137,7 +137,7 @@ function Auth({ register }) {
                                     id="email"
                                     type="email"
                                     placeholder='johndoe@gmail.com'
-                                    className='mt-2 border border-gray-300 w-full rounded-3xl px-3 py-2 placeholder:text-gray-500 hover:border-black transition delay-75 duration-150'
+                                    className='mt-2 border border-gray-300 w-full rounded-lg px-3 py-2 placeholder:text-gray-500 hover:border-black transition delay-75 duration-150'
                                     onChange={(e)=>{setUserDetails({...userDetails, email:e.target.value})}}
                                 />
                             </div>
@@ -148,14 +148,14 @@ function Auth({ register }) {
                                     id="password"
                                     type="password"
                                     placeholder='Your password'
-                                    className='mt-2 border border-gray-300 w-full rounded-3xl px-3 py-2 placeholder:text-gray-500 hover:border-black transition delay-75 duration-150'
+                                    className='mt-2 border border-gray-300 w-full rounded-lg px-3 py-2 placeholder:text-gray-500 hover:border-black transition delay-75 duration-150'
                                     onChange={(e)=>{setUserDetails({...userDetails, password:e.target.value})}}
                                 />
                             </div>
 
 
                             <div className='my-4'>
-                                <button className='transition delay-75 duration-150 w-full text-white text-xl rounded-3xl bg-blue-500 px-3 py-2 hover:text-blue-500 hover:bg-white hover:border hover:border-blue-500'
+                                <button className='transition delay-75 duration-150 w-full text-white text-xl rounded-lg bg-blue-500 px-3 py-2 hover:text-blue-500 hover:bg-white hover:border hover:border-blue-500'
                                 onClick={handleSignIn} >
                                     LOGIN
                                 </button>

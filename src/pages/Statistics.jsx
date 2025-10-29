@@ -3,11 +3,12 @@ import { getUserTasksApi } from '../services/allApi'
 import { getTaskCounts } from '../functions/taskCounts'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
+import { getFormattedDate } from '../functions/formattedDate';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
 
 
-function Statistics() {
+function Statistics({userDetails}) {
 
     const [token, setToken] = useState("")
     const [allTasks, setAllTasks] = useState([])
@@ -20,14 +21,36 @@ function Statistics() {
         medium:0,
         low:0
     })
-    console.log(taskCounts)
+    // console.log(taskCounts)
+    // console.log(userDetails)
+    
 
+    const date = new Date()
+    const dateFormatter_Arguement = date.toISOString()
+    const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' })
+
+    const getTimeOfDayGreeting = () => {
+        const hour = date.getHours();
+
+        if (hour >= 5 && hour < 12) {
+            return "Good Morning";
+        } else if (hour >= 12 && hour < 17) {
+            return "Good Afternoon";
+        } else {
+            return "Good Evening";
+        }
+    };
+
+    const getFirstName = () => {
+
+    }
+    
 
     const getUserTasks = async () => {
 
         const reqHeader = { "Authorization": `Bearer ${token}` }
         const result = await getUserTasksApi(reqHeader)
-        console.log(result.data)
+        // console.log(result.data)
         setAllTasks(result.data)
         const counts = getTaskCounts(result.data)
         setTaskCounts(counts)
@@ -114,8 +137,8 @@ function Statistics() {
         <>
 
             <div className='md:mx-5 my-8 p-7'>
-                <h1 className='text-2xl font-semibold'>Good Morning, John</h1>
-                <h2 className='mt-1'>Wednesday 23rd October 2025</h2>
+                <h1 className='text-2xl font-semibold'> <span>{getTimeOfDayGreeting()}</span> , <span>{userDetails.username}</span> </h1>
+                <h2 className='mt-1'> <span>{dayOfWeek}</span>, <span>{getFormattedDate(dateFormatter_Arguement)}</span> </h2>
                 <div className='md:grid grid-cols-4 gap-4 mt-4 py-3'>
                     <div className='flex md:justify-center'>
                         <div className='px-1 rounded bg-blue-700'></div>

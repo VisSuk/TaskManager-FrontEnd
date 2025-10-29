@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { editTaskApi, viewTaskDetailsApi } from '../services/allApi'
+import { deleteTaskApi, editTaskApi, viewTaskDetailsApi } from '../services/allApi'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faArrowCircleLeft, faArrowLeft, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { capitalize } from '../functions/capitalizeWord'
 import { getFormattedDate } from '../functions/formattedDate'
 
-function ViewTask({ selectedTaskId }) {
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
+import { useNavigate } from 'react-router-dom'
+
+function ViewTask({ setActiveComponent, selectedTaskId }) {
+
+    const navigate = useNavigate()
 
     const [token, setToken] = useState(null)
+    const [open, setOpen] = useState(false)
 
     const [taskDetails, setTaskDetails] = useState({
         title: "",
@@ -57,7 +63,7 @@ function ViewTask({ selectedTaskId }) {
 
     const handleSubmit = async () => {
 
-        const {title, description, priority, taskStatus, dueDate} = taskDetails
+        const { title, description, priority, taskStatus, dueDate } = taskDetails
         const taskId = selectedTaskId
         const reqHeader = { "Authorization": `Bearer ${token}` }
 
@@ -68,9 +74,33 @@ function ViewTask({ selectedTaskId }) {
             taskStatus,
             dueDate
         }
-        
+
         const result = await editTaskApi(taskId, reqBody, reqHeader)
         console.log(result.data)
+        if (result.status == 200) {
+            alert("Edit Successfull")
+            setIsEditing(false)
+        }
+        else {
+            alert("Something went wrong!")
+        }
+
+    }
+
+    const handleDelete = async () => {
+
+        console.log("Inside Delete Function")
+        const reqHeader = { "Authorization": `Bearer ${token}` }
+        const taskId = selectedTaskId
+
+        const result = await deleteTaskApi(taskId, reqHeader)
+        if (result.status == 200) {
+            alert("Task Deleted")
+            setActiveComponent('dashboard')
+        }
+        else {
+            alert("Something went wrong")
+        }
 
     }
 
@@ -88,10 +118,17 @@ function ViewTask({ selectedTaskId }) {
         <>
             <div className="mx-1 md:mx-5 mt-8 p-3 md:p-7 md:w-3/4 border rounded-lg shadow">
 
-                <div className="flex justify-between items-center">
-                    <h1 className="text-2xl font-semibold">
-                        {isEditing ? 'Edit Task Details' : 'Task Details'}
-                    </h1>
+                <div className="flex justify-between items-center ">
+                    <div className='flex items-center justify-between w-3/5 md:w-1/4 '>
+                        {!isEditing &&
+                            <div className='flex items-center justify-between cursor-pointer hover:text-blue-500' onClick={() => setActiveComponent("dashboard")}>
+                                <FontAwesomeIcon className="text-sm" icon={faArrowLeft} />
+                                <p>Back</p>
+                            </div>}
+                        <h1 className="text-2xl font-semibold">
+                            {isEditing ? 'Edit Task Details' : 'Task Details'}
+                        </h1>
+                    </div>
 
                     {!isEditing && (
                         <div className="w-1/3 md:w-1/5 flex justify-evenly ">
@@ -102,7 +139,7 @@ function ViewTask({ selectedTaskId }) {
                             >
                                 <FontAwesomeIcon className="text-xl text-blue-600" icon={faPenToSquare} />
                             </button>
-                            <button type="button" className="p-2 rounded-lg bg-red-200 hover:bg-red-300 transition">
+                            <button type="button" className="p-2 rounded-lg bg-red-200 hover:bg-red-300 transition" onClick={() => { setOpen(!open) }} >
                                 <FontAwesomeIcon className="text-xl text-red-600" icon={faTrash} />
                             </button>
                         </div>
@@ -217,11 +254,56 @@ function ViewTask({ selectedTaskId }) {
                         <button type="button"
                             onClick={() => { setTaskDetails(taskDetails_2), setIsEditing(false) }}
                             className="px-5 py-2 rounded-lg text-lg font-semibold bg-gray-300 hover:bg-gray-400">Cancel</button>
-                        <button type="button" 
-                        onClick={handleSubmit}
-                        className="px-5 py-2 rounded-lg text-lg font-semibold text-white bg-green-500 hover:bg-green-600">Save Changes</button>
+                        <button type="button"
+                            onClick={handleSubmit}
+                            className="px-5 py-2 rounded-lg text-lg font-semibold text-white bg-green-500 hover:bg-green-600">Save Changes</button>
                     </div>
                 )}
+
+                <Dialog open={open} onClose={setOpen} className="relative z-10">
+                    <DialogBackdrop
+                        transition
+                        className="fixed inset-0 bg-gray-900/50 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
+                    />
+
+                    <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                            <DialogPanel
+                                transition
+                                className="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl outline -outline-offset-1 outline-white/10 transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
+                            >
+                                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                    <div className="sm:flex sm:items-start">
+                                        <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                                            <DialogTitle as="h3" className="text-xl font-semibold text-black text-center">
+                                                Delete Task?
+                                            </DialogTitle>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="bg-gray-700/25 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                    <button
+                                        type="button"
+                                        onClick={() => { setOpen(false), handleDelete() }}
+                                        className="inline-flex w-full justify-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white hover:bg-red-400 sm:ml-3 sm:w-auto"
+                                    >
+                                        Confirm
+                                    </button>
+                                    <button
+                                        type="button"
+                                        data-autofocus
+                                        onClick={() => setOpen(false)}
+                                        className="mt-3 inline-flex w-full justify-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white inset-ring inset-ring-white/5 hover:bg-white/20 sm:mt-0 sm:w-auto"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </DialogPanel>
+                        </div>
+                    </div>
+                </Dialog>
+
             </div>
 
 
